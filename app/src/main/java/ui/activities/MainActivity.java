@@ -38,8 +38,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager=(ViewPager) findViewById(R.id.pager);
 
 
-
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
         setSupportActionBar(toolbar);
+
 
 
         final  ViewPager pager = (ViewPager) findViewById(R.id.pager);

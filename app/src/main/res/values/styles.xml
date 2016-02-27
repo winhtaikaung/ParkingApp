@@ -15,6 +15,8 @@
         <!-- Title color in AppCompat.Light  -->
         <item name="android:textColorPrimaryInverse">@android:color/black</item>
 
+
+
         <!-- Menu text-->
         <item name="actionMenuTextColor">@android:color/white</item>
         <!-- Overflow -->
@@ -32,7 +34,7 @@
 
 
     </style>
-
+    <!--Tab Layout Rendering-->
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/MyCustomTabText</item>
         <item name="tabSelectedTextColor">@color/colorAccent</item>
