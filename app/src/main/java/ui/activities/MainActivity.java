@@ -1,18 +1,28 @@
 package ui.activities;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.widget.TextView;
+
+
 
 import com.parking.R;
+import com.stanfy.gsonxml.GsonXml;
+import com.stanfy.gsonxml.GsonXmlBuilder;
+import com.stanfy.gsonxml.XmlParserCreator;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import API.RetrofitAPI;
+import models.Feed;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -41,6 +51,20 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
+        XmlParserCreator parserCreator=new XmlParserCreator() {
+            @Override
+            public XmlPullParser createParser() {
+                try {
+                    return XmlPullParserFactory.newInstance().newPullParser();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+
+        final GsonXml gsonXml = new GsonXmlBuilder()
+                .setXmlParserCreator(parserCreator)
+                .create();
 
         final  ViewPager pager = (ViewPager) findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),titles);
@@ -49,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         setupTabIcons();
+        try{
+            String xml=loadStringFromFile(this,"demo.xml");
+            Feed fed=gsonXml.fromXml(xml, Feed.class);
+            fed.getEntry();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
 
 
 
@@ -57,6 +89,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void success(String s, Response response) {
                 Log.i("SUCCESS",s);
+                Object obj=null;
+
+                try {
+
+
+
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+
+
+
+
+
+                //assertEquals(xmlmapper.writeValueAsString(p2),xml);
+
+
+
+
             }
 
             @Override
@@ -72,6 +123,22 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_parking);
 
 
+    }
+
+    public static String loadStringFromFile(Context context, String filepath) {
+        String json = null;
+        try {
+            InputStream is = context.getAssets().open(filepath);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 
 
