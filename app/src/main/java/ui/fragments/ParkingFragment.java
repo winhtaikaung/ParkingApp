@@ -24,6 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import API.RetrofitAPI;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.SlideInRightAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import models.Entry;
 import models.Feed;
 import retrofit.Callback;
@@ -49,6 +55,7 @@ public class ParkingFragment extends Fragment {
 
     void bindView(View v){
         parkinglist=(RecyclerView) v.findViewById(R.id.parking_list);
+
 
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -103,7 +110,7 @@ public class ParkingFragment extends Fragment {
 //                           parkingListAdapter.addParking(e);
 //                       }
 
-                       parkinglist.setAdapter(parkingListAdapter);
+                       parkinglist.setAdapter(new SlideInRightAnimationAdapter(parkingListAdapter));
 
 
                    }catch (Exception ex){
