@@ -42,9 +42,6 @@ dependencies {
     compile('com.stanfy:gson-xml-java:0.1.+') {
         exclude group: 'xmlpull', module: 'xmlpull'
     }
-
-
-
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-
+    compile 'com.android.support:recyclerview-v7:23.1.1'
 }

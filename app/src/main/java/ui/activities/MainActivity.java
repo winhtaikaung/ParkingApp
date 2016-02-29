@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
         final GsonXml gsonXml = new GsonXmlBuilder()
                 .setXmlParserCreator(parserCreator)
+                .setSameNameLists(true)
+                .setTreatNamespaces(false)
                 .create();
 
         final  ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -73,13 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         setupTabIcons();
-        try{
-            String xml=loadStringFromFile(this,"demo.xml");
-            Feed fed=gsonXml.fromXml(xml, Feed.class);
-            fed.getEntry();
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+
 
 
 
@@ -93,7 +89,19 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
 
+                    try{
+                        String xml=s;
+                        xml=xml.replace("m:","");
+                        xml=xml.replace("d:","");
+                        xml=xml.replace("type=\"Edm.Int32\"","");
+                        xml=xml.replace("type=\"Edm.DateTime\"","");
+                        xml=xml.replace("type=\"Edm.Double\"","");
+                        Feed fed=gsonXml.fromXml(xml, Feed.class);
 
+                        fed.getEntry();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
 
                 }catch (Exception ex){
                     ex.printStackTrace();
