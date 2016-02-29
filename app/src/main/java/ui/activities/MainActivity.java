@@ -51,22 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        XmlParserCreator parserCreator=new XmlParserCreator() {
-            @Override
-            public XmlPullParser createParser() {
-                try {
-                    return XmlPullParserFactory.newInstance().newPullParser();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        };
 
-        final GsonXml gsonXml = new GsonXmlBuilder()
-                .setXmlParserCreator(parserCreator)
-                .setSameNameLists(true)
-                .setTreatNamespaces(false)
-                .create();
 
         final  ViewPager pager = (ViewPager) findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),titles);
@@ -81,48 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        RetrofitAPI.getInstance(this).getService().getParkings(new Callback<String>() {
-            @Override
-            public void success(String s, Response response) {
-                Log.i("SUCCESS",s);
-                Object obj=null;
 
-                try {
-
-                    try{
-                        String xml=s;
-                        xml=xml.replace("m:","");
-                        xml=xml.replace("d:","");
-                        xml=xml.replace("type=\"Edm.Int32\"","");
-                        xml=xml.replace("type=\"Edm.DateTime\"","");
-                        xml=xml.replace("type=\"Edm.Double\"","");
-                        Feed fed=gsonXml.fromXml(xml, Feed.class);
-
-                        fed.getEntry();
-                    }catch (Exception ex){
-                        ex.printStackTrace();
-                    }
-
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-
-
-
-
-
-                //assertEquals(xmlmapper.writeValueAsString(p2),xml);
-
-
-
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("RETROFIT_ERR",error.getMessage());
-            }
-        });
     }
 
     private void setupTabIcons() {

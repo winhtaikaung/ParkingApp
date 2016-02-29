@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.parking.R;
@@ -24,6 +26,8 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
 
     List<Entry> mEntries;
     Context mContext;
+
+    private int lastPosition = -1;
 
 
 
@@ -73,6 +77,7 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
         holder.tv_location.setText(parking.getContent().getMproperties().getDevelopment());
         //need to do some calculation here
 
+        setAnimation(holder.list_item_layout, position);
 
 
         Log.e("LOT_NO",parking.getContent().getMproperties().getLots());
@@ -113,4 +118,19 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
 
         }
     }
+
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
+    }
+
+
+
+
 }
