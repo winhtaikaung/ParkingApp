@@ -1,82 +1,108 @@
 package ui.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.parking.R;
+
+import java.util.List;
+
+import models.Entry;
 
 /**
  * Created by winhtaikaung on 2/29/16.
  */
 
 
-public class ParkingListAdapter extends RecyclerView.Adapter<HistoryListAdapter.HistoryViewHolder> {
+public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.ParkingViewHolder> {
 
-    String[] mArrString;
+    List<Entry> mEntries;
     Context mContext;
 
 
-    public ParkingListAdapter(String[] arr_string, Context c){
+
+    public ParkingListAdapter(List<Entry> entries, Context c){
         this.mContext=c;
-        this.mArrString=arr_string;
+        this.mEntries=entries;
 
 
     }
 
 
     @Override
-    public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ParkingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.
                 from(parent.getContext()).
-                inflate(R.layout.history_item, parent, false);
+                inflate(R.layout.parking_rowitem, parent, false);
 
-        return new HistoryViewHolder(itemView);
+        return new ParkingViewHolder(itemView);
     }
 
-    public void addlocation(String location){
-        this.mArrString[mArrString.length+1]=location;
+    /**
+     * Add Parking to List
+     * @param model
+     */
+    public void addParking(Entry model){
+        this.mEntries.add(model);
         notifyDataSetChanged();
     }
 
-    public void swaplist(String[] arr){
-        this.mArrString=arr;
+    /**
+     * Swap The Parking List with parking lists
+     * @param entries
+     */
+    public void swaplist(List<Entry> entries){
+        this.mEntries=entries;
         notifyDataSetChanged();
     }
 
     @Override
-    public void onBindViewHolder(HistoryViewHolder holder, int position) {
-        String[] lat_lon=mArrString[position].split(":");
+    public void onBindViewHolder(ParkingViewHolder holder, int position) {
+        Entry parking=mEntries.get(position);
 
 
 
-        holder.tv_lat.setText(lat_lon[2]);
-        holder.tv_lon.setText(lat_lon[3]);
+        holder.tv_lotno.setText(parking.getContent().getMproperties().getLots());
+        holder.tv_distance.setText("123"+"km");
+        holder.tv_location.setText(parking.getContent().getMproperties().getDevelopment());
+        //need to do some calculation here
 
 
-        Log.e("LAT_LON",lat_lon[0]);
-        Log.e("LAT_LON",lat_lon[1]);
 
-        //holder.tv_lat.setText(lat_lon[0]);
+        Log.e("LOT_NO",parking.getContent().getMproperties().getLots());
+        Log.e("NAME",parking.getContent().getMproperties().getDevelopment());
+
+        //holder.tv_lotno.setText(lat_lon[0]);
 
     }
 
     @Override
     public int getItemCount() {
-        return mArrString.length;
+        return mEntries.size();
     }
 
 
-    class HistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ParkingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        protected TextView tv_lat;
-        protected TextView tv_lon;
+        protected TextView tv_lotno;
+        protected TextView tv_distance;
+        protected TextView tv_location;
 
 
         protected CardView list_item_layout;
 
-        public HistoryViewHolder(View itemView){
+        public ParkingViewHolder(View itemView){
             super(itemView);
             list_item_layout=(CardView) itemView.findViewById(R.id.list_item_layout);
-            tv_lat=(TextView) itemView.findViewById(R.id.tv_lat);
-            tv_lon=(TextView) itemView.findViewById(R.id.tv_lon);
+            tv_lotno =(TextView) itemView.findViewById(R.id.tv_lotNo);
+            tv_distance =(TextView) itemView.findViewById(R.id.tv_distance);
+            tv_location =(TextView) itemView.findViewById(R.id.tv_location);
 
         }
 

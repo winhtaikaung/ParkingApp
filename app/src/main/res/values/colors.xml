@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#dadada</color>
     <color name="colorAccent">#2a4fe2</color>
 
+    <color name="lot_no_color">#4cc96b</color>
+
 </resources>

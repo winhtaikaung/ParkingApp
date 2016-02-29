@@ -43,6 +43,29 @@
         <item name="android:textColor">@android:color/darker_gray</item>
     </style>
 
+    <!--Text View Styles for Parking Item-->
+    <style name="TV_LOCATION" parent="android:Widget.TextView">
+        <item name="android:textColor">@android:color/black</item>
+
+        <item name="android:textSize">20dp</item>
+        <item name="fontPath">fonts/RobotoCondensed-Regular.ttf</item>
+    </style>
+
+    <style name="TV_DISTANCE" parent="android:Widget.TextView">
+        <item name="android:textColor">@android:color/darker_gray</item>
+
+        <item name="android:textSize">20dp</item>
+        <item name="fontPath">fonts/RobotoCondensed-Regular.ttf</item>
+    </style>
+    <style name="TV_LOT_NO" parent="android:Widget.TextView">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15dp</item>
+        <item name="fontPath">fonts/RobotoCondensed-Regular.ttf</item>
+    </style>
+
+
+
 
 
 
