@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:text="Favourite"
                 style="@style/BTN_FAVOURITE"
-                android:background="@drawable/rectangle_blue"
+                android:background="@drawable/bg_rectangle"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"

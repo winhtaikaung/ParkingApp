@@ -1,8 +1,12 @@
 package ui.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -22,13 +26,14 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import API.RetrofitAPI;
+import common.ComUtil;
 import models.Feed;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import ui.adapters.ViewPagerAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -49,17 +54,48 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         setSupportActionBar(toolbar);
 
+        if(!ComUtil.isOnline(this)){
+            AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+            dialog.setMessage("Cannot access internet,Switch on data?");
+            dialog.setNeutralButton("Mobile-Data", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    startActivity(new Intent(Settings.ACTION_APN_SETTINGS));
+                    dialogInterface.dismiss();
+
+                }
+            });
+            dialog.setNegativeButton("WI-FI", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                    dialogInterface.dismiss();
+
+                }
+            });
+            dialog.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+            dialog.show();
+        }else{
+            final  ViewPager pager = (ViewPager) findViewById(R.id.pager);
+            ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),titles);
+            pager.setAdapter(adapter);
+            tabLayout.setupWithViewPager(pager);
 
 
-        final  ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),titles);
-        pager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(pager);
+            setupTabIcons();
+        }
 
 
-        setupTabIcons();
+
+
 
 
 
