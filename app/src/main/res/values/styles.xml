@@ -60,6 +60,7 @@
     <style name="TV_LOT_NO" parent="android:Widget.TextView">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
         <item name="android:textSize">15dp</item>
         <item name="fontPath">fonts/RobotoCondensed-Regular.ttf</item>
     </style>

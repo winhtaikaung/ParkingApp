@@ -23,7 +23,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="80dp"
             android:id="@+id/tv_lotNo"
             android:text="255"
             style="@style/TV_LOT_NO"
@@ -40,6 +40,7 @@
             android:background="@drawable/ic_fav"
             android:layout_height="20dp"
             android:id="@+id/tv_fav"
+            android:visibility="invisible"
 
             android:layout_marginRight="30dp"
             android:layout_marginEnd="30dp"
@@ -51,11 +52,10 @@
             android:id="@+id/tv_distance"
             style="@style/TV_DISTANCE"
             android:text="2.5 km"
-            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_lotNo"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_below="@+id/tv_fav"
+            android:layout_alignLeft="@+id/tv_location"
+            android:layout_alignStart="@+id/tv_location" />
     </RelativeLayout>
 
 

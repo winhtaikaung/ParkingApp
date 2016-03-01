@@ -26,14 +26,16 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
 
     List<Entry> mEntries;
     Context mContext;
+    private ParkingListOnClickHandler mClickHandler;
 
     private int lastPosition = -1;
 
 
 
-    public ParkingListAdapter(List<Entry> entries, Context c){
+    public ParkingListAdapter(List<Entry> entries, Context c,ParkingListOnClickHandler _handler){
         this.mContext=c;
         this.mEntries=entries;
+        this.mClickHandler=_handler;
 
 
     }
@@ -92,8 +94,16 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
         return mEntries.size();
     }
 
+    public interface ParkingListOnClickHandler {
+        void onItemClickListener(int AdapterPosition,Entry selectedEntry, ParkingViewHolder vh);
 
-    class ParkingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+
+        //void onContactClick(PartyItem item, SdsFormViewHolder vh);
+    }
+
+
+    public class ParkingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         protected TextView tv_lotno;
         protected TextView tv_distance;
@@ -109,12 +119,16 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
             tv_distance =(TextView) itemView.findViewById(R.id.tv_distance);
             tv_location =(TextView) itemView.findViewById(R.id.tv_location);
 
+            list_item_layout.setOnClickListener(this);
+
         }
 
 
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
+            Entry e=mEntries.get(adapterPosition);
+            mClickHandler.onItemClickListener(adapterPosition,e,this);
 
         }
     }

@@ -1,5 +1,7 @@
 package ui.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.parking.R;
 import com.stanfy.gsonxml.GsonXml;
@@ -20,6 +23,8 @@ import com.stanfy.gsonxml.XmlParserCreator;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +40,7 @@ import models.Feed;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import ui.activities.DetailActivity;
 import ui.adapters.ParkingListAdapter;
 
 /**
@@ -96,7 +102,8 @@ public class ParkingFragment extends Fragment {
                            .setTreatNamespaces(false)
                            .create();
                    try{
-                       String xml=s;
+                       //String xml=s;
+                       String xml=loadStringFromFile(getActivity(),"demo.xml");
                        xml=xml.replace("m:","");
                        xml=xml.replace("d:","");
                        xml=xml.replace("type=\"Edm.Int32\"","");
@@ -104,7 +111,14 @@ public class ParkingFragment extends Fragment {
                        xml=xml.replace("type=\"Edm.Double\"","");
                        Feed fed=gsonXml.fromXml(xml, Feed.class);
 
-                       parkingListAdapter = new ParkingListAdapter(fed.getEntry(),getActivity());
+                       parkingListAdapter = new ParkingListAdapter(fed.getEntry(), getActivity(), new ParkingListAdapter.ParkingListOnClickHandler() {
+                           @Override
+                           public void onItemClickListener(int AdapterPosition, Entry selectedEntry, ParkingListAdapter.ParkingViewHolder vh) {
+                               //Toast.makeText(getActivity(),selectedEntry.getContent().getMproperties().getLatitude(),Toast.LENGTH_LONG).show();
+                               Intent intent=new Intent(getActivity(), DetailActivity.class);
+                               startActivity(intent);
+                           }
+                       });
 
 //                       for(Entry e:fed.getEntry()){
 //                           parkingListAdapter.addParking(e);
@@ -140,6 +154,22 @@ public class ParkingFragment extends Fragment {
 
 
 
+    }
+
+    public static String loadStringFromFile(Context context, String filepath) {
+        String json = null;
+        try {
+            InputStream is = context.getAssets().open(filepath);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 
 
