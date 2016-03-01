@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import API.RetrofitAPI;
+import common.GlobalValues;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.SlideInRightAnimationAdapter;
@@ -47,6 +48,7 @@ import ui.adapters.ParkingListAdapter;
  * Created by winhtaikaung on 2/26/16.
  */
 public class ParkingFragment extends Fragment {
+
 
     RecyclerView parkinglist;
     LinearLayoutManager layoutManager;
@@ -116,6 +118,11 @@ public class ParkingFragment extends Fragment {
                            public void onItemClickListener(int AdapterPosition, Entry selectedEntry, ParkingListAdapter.ParkingViewHolder vh) {
                                //Toast.makeText(getActivity(),selectedEntry.getContent().getMproperties().getLatitude(),Toast.LENGTH_LONG).show();
                                Intent intent=new Intent(getActivity(), DetailActivity.class);
+                               intent.putExtra(GlobalValues.PARKING_NAME,selectedEntry.getContent().getMproperties().getDevelopment());
+                               intent.putExtra(GlobalValues.LOT_NO,selectedEntry.getContent().getMproperties().getLots());
+                               intent.putExtra(GlobalValues.DISTANCE,"distance");
+                               intent.putExtra(GlobalValues.LONGITUDE,selectedEntry.getContent().getMproperties().getLongitude());
+                               intent.putExtra(GlobalValues.LATITUDE,selectedEntry.getContent().getMproperties().getLatitude());
                                startActivity(intent);
                            }
                        });
