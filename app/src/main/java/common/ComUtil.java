@@ -5,13 +5,16 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * Created by winhtaikaung on 3/1/16.
  */
 public class ComUtil {
-    public static float calculateDistance(Location last,Location current){
+    public static float calculateDistance(Location last, Location current) {
         //to get KM we have to divide with 1000
-        float distance=last.distanceTo(current);
+        float distance = last.distanceTo(current);
         return distance;
     }
 
@@ -23,5 +26,21 @@ public class ComUtil {
             return false;
         } else
             return true;
+    }
+
+    public static String loadStringFromFile(Context context, String filepath) {
+        String json = null;
+        try {
+            InputStream is = context.getAssets().open(filepath);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 }

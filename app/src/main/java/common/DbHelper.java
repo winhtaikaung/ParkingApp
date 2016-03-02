@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import models.Entry;
+
 /**
  * Created by winhtaikaung on 3/2/16.
  */
@@ -71,6 +73,16 @@ public class DbHelper {
             duplicate= true;
         }
         return  duplicate;
+    }
+
+   public List<Entry> getFavouriteEntry(List<Entry> list){
+        List<Entry> fav_list=new ArrayList<>();
+        for(Entry item:list){
+            if(checkisfav(item.getContent().getMproperties().getCarParkID())){
+                fav_list.add(item);
+            }
+        }
+        return fav_list;
     }
 
     public boolean checkisfav(String parkingid){

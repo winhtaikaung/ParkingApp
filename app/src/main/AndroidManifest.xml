@@ -29,6 +29,14 @@
             android:screenOrientation="portrait">
 
         </activity>
+        <receiver android:name=".Parking">
+
+            <intent-filter>
+                <action android:name="com.parking.parkingreceiver">
+                </action>
+            </intent-filter>
+
+        </receiver>
     </application>
 
 </manifest>

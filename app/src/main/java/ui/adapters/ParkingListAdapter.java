@@ -105,7 +105,7 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
 
 
         }else{
-            holder.tv_distance.setText("Distance\nnot Available");
+            holder.tv_distance.setText("Invalid Distance");
         }
         setAnimation(holder.list_item_layout, position);
 

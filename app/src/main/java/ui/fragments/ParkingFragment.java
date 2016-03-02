@@ -2,15 +2,18 @@ package ui.fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -122,6 +125,15 @@ public class ParkingFragment extends Fragment implements IGPSChangeListener, Goo
 
 
     }
+
+    public final BroadcastReceiver ParkingReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase("parking")) {
+                grabdataFromAPI(mLastLocation);
+            }
+        }
+    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, final @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -278,7 +290,7 @@ public class ParkingFragment extends Fragment implements IGPSChangeListener, Goo
     @Override
     public void OnUserMove(Location l) {
         grabdataFromAPI(l);
-        Toast.makeText(getActivity(), "Your Location is - \nLat: " + l.getLatitude() + "\nLong: " + l.getLongitude(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(), "Your Location is - \nLat: " + l.getLatitude() + "\nLong: " + l.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -356,6 +368,11 @@ public class ParkingFragment extends Fragment implements IGPSChangeListener, Goo
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
+        IntentFilter intentFilter = new IntentFilter();
+
+        intentFilter.addAction("parking");
+        LocalBroadcastManager.getInstance(getActivity()).
+                registerReceiver(ParkingReceiver, intentFilter);
     }
 
     @Override

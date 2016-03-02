@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity  {
                     startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                     dialogInterface.dismiss();
 
+
                 }
             });
             dialog.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
@@ -95,6 +97,32 @@ public class MainActivity extends AppCompatActivity  {
             ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),titles);
             pager.setAdapter(adapter);
             tabLayout.setupWithViewPager(pager);
+            pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if(position==1) {
+                        Intent intent = new Intent();
+                        intent.setAction("parking");
+                        LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
+                    }
+
+                    if(position==0){
+                        Intent intent = new Intent();
+                        intent.setAction("favourite");
+                        LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
 
 
             setupTabIcons();
