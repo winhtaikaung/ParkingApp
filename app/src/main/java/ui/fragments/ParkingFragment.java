@@ -229,6 +229,7 @@ public class ParkingFragment extends Fragment implements IGPSChangeListener, Goo
                                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                                 intent.putExtra(GlobalValues.PARKING_NAME, selectedEntry.getContent().getMproperties().getDevelopment());
                                 intent.putExtra(GlobalValues.LOT_NO, selectedEntry.getContent().getMproperties().getLots());
+                                intent.putExtra(GlobalValues.PARKING_ID, selectedEntry.getContent().getMproperties().getCarParkID());
                                 intent.putExtra(GlobalValues.DISTANCE, vh.tv_distance.getText());
                                 intent.putExtra(GlobalValues.LONGITUDE, selectedEntry.getContent().getMproperties().getLongitude());
                                 intent.putExtra(GlobalValues.LATITUDE, selectedEntry.getContent().getMproperties().getLatitude());

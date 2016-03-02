@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +24,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 import com.parking.R;
 
+import common.DbHelper;
 import common.GlobalValues;
+import common.MySharedPreference;
 
 /**
  * Created by winhtaikaung on 3/1/16.
@@ -33,9 +36,12 @@ public class DetailViewFragment extends Fragment implements OnMapReadyCallback {
     GoogleApiClient mGoogleApiClient;
     IconGenerator iconFactory;
     Button btn_fav;
-    TextView txt_lotname,txt_lotno,txt_distance;
+    TextView txt_lotname,txt_lotno,txt_distance,tv_carparkid;
+    FrameLayout fav_layout;
+    DbHelper db;
 
-    String parking_name, lotno, distance, longitude, latitude;
+
+    String parking_name, lotno, distance, longitude, latitude,carparkid;
 
     @Nullable
     @Override
@@ -45,6 +51,10 @@ public class DetailViewFragment extends Fragment implements OnMapReadyCallback {
         txt_lotno=(TextView) v.findViewById(R.id.tv_lotNo);
         txt_distance=(TextView) v.findViewById(R.id.tv_distance);
         btn_fav=(Button)v.findViewById(R.id.btn_favourite);
+        tv_carparkid=(TextView) v.findViewById(R.id.carpark_id);
+        fav_layout=(FrameLayout) v.findViewById(R.id.fav_layout);
+        db=new DbHelper(getActivity());
+
         Bundle b = getArguments();
         if (b != null) {
             parking_name = b.getString(GlobalValues.PARKING_NAME);
@@ -52,12 +62,19 @@ public class DetailViewFragment extends Fragment implements OnMapReadyCallback {
             distance = b.getString(GlobalValues.DISTANCE);
             longitude = b.getString(GlobalValues.LONGITUDE);
             latitude = b.getString(GlobalValues.LATITUDE);
+            carparkid = b.getString(GlobalValues.PARKING_ID);
 
             txt_lotname.setText(parking_name);
             txt_lotno.setText(lotno);
+            tv_carparkid.setText(carparkid);
             txt_distance.setText(distance);
 
         }
+
+        if(db.checkDuplicateCarpark(tv_carparkid.getText().toString().trim())){
+           fav_layout.setVisibility(View.GONE);
+        }
+
 
 
         iconFactory = new IconGenerator(getActivity());
@@ -80,7 +97,15 @@ public class DetailViewFragment extends Fragment implements OnMapReadyCallback {
         @Override
         public void onClick(View view) {
             if(view.getId()==R.id.btn_favourite){
-                Toast.makeText(getActivity(),"Favourite list added",Toast.LENGTH_LONG).show();
+                String id=tv_carparkid.getText().toString().trim();
+
+
+                if(!db.checkDuplicateCarpark(id)){
+                    db.addCarpark(id);
+                }else {
+                    Toast.makeText(getActivity(),"Duplicate location",Toast.LENGTH_LONG).show();
+                }
+
             }
         }
     }

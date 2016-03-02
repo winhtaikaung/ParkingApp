@@ -13,7 +13,7 @@ import ui.fragments.DetailViewFragment;
  * Created by winhtaikaung on 3/1/16.
  */
 public class DetailActivity extends AppCompatActivity {
-    String parking_name,lotno,distance,longitude,latitude;
+    String parking_name,lotno,distance,longitude,latitude,carparkid;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +24,7 @@ public class DetailActivity extends AppCompatActivity {
         distance=getIntent().getStringExtra(GlobalValues.DISTANCE);
         longitude=getIntent().getStringExtra(GlobalValues.LONGITUDE);
         latitude=getIntent().getStringExtra(GlobalValues.LATITUDE);
+        carparkid=getIntent().getStringExtra(GlobalValues.PARKING_ID);
 
         if(savedInstanceState==null){
             Bundle bundle=new Bundle();
@@ -32,6 +33,7 @@ public class DetailActivity extends AppCompatActivity {
             bundle.putString(GlobalValues.DISTANCE,distance);
             bundle.putString(GlobalValues.LONGITUDE,longitude);
             bundle.putString(GlobalValues.LATITUDE,latitude);
+            bundle.putString(GlobalValues.PARKING_ID,carparkid);
             DetailViewFragment dv_fragment=new DetailViewFragment();
             dv_fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().add(R.id.content,dv_fragment ).commit();
