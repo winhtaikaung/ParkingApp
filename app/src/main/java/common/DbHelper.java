@@ -3,6 +3,7 @@ package common;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +21,7 @@ public class DbHelper {
     public String[] getAllCarparks() {
         String[] arr = new String[0];
         String carparks = MySharedPreference.getInstance(mContext).getStringPreference(GlobalValues.PARKING_DB, "");
+        Log.w("CARPARK",carparks);
         if (carparks.equals("")) {
             arr = new String[0];
         }
@@ -69,5 +71,23 @@ public class DbHelper {
             duplicate= true;
         }
         return  duplicate;
+    }
+
+    public boolean checkisfav(String parkingid){
+        boolean fav=false;
+
+        parkingid=parkingid.trim();
+        ArrayList<Integer> arr_parking=new ArrayList<>();
+
+        for(String i : Arrays.asList(getAllCarparks())){
+            arr_parking.add(Integer.parseInt(i));
+        }
+
+        if(arr_parking.contains(Integer.parseInt(parkingid))){
+            fav=true;
+        }else {
+            fav=false;
+        }
+        return fav;
     }
 }

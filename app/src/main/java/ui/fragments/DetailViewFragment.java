@@ -71,7 +71,7 @@ public class DetailViewFragment extends Fragment implements OnMapReadyCallback {
 
         }
 
-        if(db.checkDuplicateCarpark(tv_carparkid.getText().toString().trim())){
+        if(db.checkisfav(tv_carparkid.getText().toString().trim())){
            fav_layout.setVisibility(View.GONE);
         }
 
@@ -102,6 +102,7 @@ public class DetailViewFragment extends Fragment implements OnMapReadyCallback {
 
                 if(!db.checkDuplicateCarpark(id)){
                     db.addCarpark(id);
+                    fav_layout.setVisibility(View.INVISIBLE);
                 }else {
                     Toast.makeText(getActivity(),"Duplicate location",Toast.LENGTH_LONG).show();
                 }

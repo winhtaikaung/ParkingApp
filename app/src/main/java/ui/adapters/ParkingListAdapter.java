@@ -14,6 +14,7 @@ import com.parking.R;
 
 import java.util.List;
 
+import common.DbHelper;
 import common.GooglePlayHelper;
 import models.Entry;
 
@@ -28,6 +29,7 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
     Context mContext;
     private ParkingListOnClickHandler mClickHandler;
     private Location mCurrentLocation;
+    DbHelper db;
 
     private int lastPosition = -1;
 
@@ -37,6 +39,7 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
         this.mEntries = entries;
         this.mClickHandler = _handler;
         this.mCurrentLocation = current;
+        this.db=new DbHelper(mContext);
 
 
     }
@@ -85,10 +88,19 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
 
         holder.tv_location.setText(parking.getContent().getMproperties().getDevelopment());
         //need to do some calculation here
+        //Log.e("CARPPARK_ID",parking.getContent().getMproperties().getCarParkID());
+        //Show favicon
+        if(db.checkisfav(parking.getContent().getMproperties().getCarParkID().trim())){
+            Log.e("CARPPARK_ID",parking.getContent().getMproperties().getCarParkID()+"  TRUE  ");
+           holder.tv_fav.setVisibility(View.VISIBLE);
+        }else{
+            holder.tv_fav.setVisibility(View.INVISIBLE);
+            Log.e("CARPPARK_ID",parking.getContent().getMproperties().getCarParkID()+"  FALSE  ");
+        }
+
 
         if (mCurrentLocation != null) {
-            Log.e("LATITUDE", String.valueOf(mCurrentLocation.getLatitude()));
-            Log.e("LONGITUDE", String.valueOf(mCurrentLocation.getLongitude()));
+
             holder.tv_distance.setText(getDistance(parking) + " km");
 
 
@@ -136,6 +148,7 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
         public TextView tv_lotno;
         public TextView tv_distance;
         public TextView tv_location;
+        public TextView tv_fav;
 
 
         public CardView list_item_layout;
@@ -146,6 +159,7 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
             tv_lotno = (TextView) itemView.findViewById(R.id.tv_lotNo);
             tv_distance = (TextView) itemView.findViewById(R.id.tv_distance);
             tv_location = (TextView) itemView.findViewById(R.id.tv_location);
+            tv_fav=(TextView) itemView.findViewById(R.id.tv_fav);
 
             list_item_layout.setOnClickListener(this);
 
