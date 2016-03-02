@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -130,9 +131,7 @@ public class ParkingFragment extends Fragment implements IGPSChangeListener, Goo
                     @Override
                     public void call() {
                         String msg = "Request Success : " + permissions[0];
-                        /*Toast.makeText(getActivity(),
-                                msg,
-                                Toast.LENGTH_SHORT).show();*/
+
 
                         grabdataFromAPI(displayLocationbyPlayservice());
 
@@ -164,7 +163,7 @@ public class ParkingFragment extends Fragment implements IGPSChangeListener, Goo
                                 msg,
                                 Toast.LENGTH_SHORT).show();*/
 
-                        gpsTracker = new GPSTracker(getActivity());
+                        gpsTracker = new GPSTracker(getActivity(),ParkingFragment.this);
                         grabdataFromAPI(displayLocationbyPlayservice());
 
                     }
@@ -212,14 +211,16 @@ public class ParkingFragment extends Fragment implements IGPSChangeListener, Goo
                             .setTreatNamespaces(false)
                             .create();
                     try {
-                        //String xml=s;
-                        String xml = loadStringFromFile(getActivity(), "demo.xml");
+                        String xml=s;
+                        //String xml = loadStringFromFile(getActivity(), "demo.xml");
                         xml = xml.replace("m:", "");
                         xml = xml.replace("d:", "");
                         xml = xml.replace("type=\"Edm.Int32\"", "");
                         xml = xml.replace("type=\"Edm.DateTime\"", "");
                         xml = xml.replace("type=\"Edm.Double\"", "");
                         Feed fed = gsonXml.fromXml(xml, Feed.class);
+
+
 
                         parkingListAdapter = new ParkingListAdapter(fed.getEntry(), getActivity(), lastlocation, new ParkingListAdapter.ParkingListOnClickHandler() {
                             @Override
@@ -231,7 +232,11 @@ public class ParkingFragment extends Fragment implements IGPSChangeListener, Goo
                                 intent.putExtra(GlobalValues.DISTANCE, vh.tv_distance.getText());
                                 intent.putExtra(GlobalValues.LONGITUDE, selectedEntry.getContent().getMproperties().getLongitude());
                                 intent.putExtra(GlobalValues.LATITUDE, selectedEntry.getContent().getMproperties().getLatitude());
+
+
                                 startActivity(intent);
+
+                                getActivity().overridePendingTransition(R.anim.slide_in_top,R.anim.slide_out_top);
                             }
                         });
 
@@ -271,7 +276,8 @@ public class ParkingFragment extends Fragment implements IGPSChangeListener, Goo
 
     @Override
     public void OnUserMove(Location l) {
-        //grabdataFromAPI(l);
+        grabdataFromAPI(l);
+        Toast.makeText(getActivity(), "Your Location is - \nLat: " + l.getLatitude() + "\nLong: " + l.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
     @Override

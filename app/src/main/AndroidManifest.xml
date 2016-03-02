@@ -17,14 +17,16 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDwBEo1f3c1uWgmVJdpr9Ky88nolzHLEU4" />
-        <activity android:name="ui.activities.MainActivity">
+        <activity android:name="ui.activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ui.activities.DetailActivity">
+        <activity android:name="ui.activities.DetailActivity"
+            android:screenOrientation="portrait">
 
         </activity>
     </application>

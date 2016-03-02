@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,6 +44,7 @@ public class DetailViewFragment extends Fragment implements OnMapReadyCallback {
         txt_lotname=(TextView) v.findViewById(R.id.tv_location);
         txt_lotno=(TextView) v.findViewById(R.id.tv_lotNo);
         txt_distance=(TextView) v.findViewById(R.id.tv_distance);
+        btn_fav=(Button)v.findViewById(R.id.btn_favourite);
         Bundle b = getArguments();
         if (b != null) {
             parking_name = b.getString(GlobalValues.PARKING_NAME);
@@ -67,8 +69,20 @@ public class DetailViewFragment extends Fragment implements OnMapReadyCallback {
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        btn_fav.setOnClickListener(new OnViewCLickListener());
+
 
         return v;
+    }
+
+    protected class OnViewCLickListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            if(view.getId()==R.id.btn_favourite){
+                Toast.makeText(getActivity(),"Favourite list added",Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override

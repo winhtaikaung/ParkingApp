@@ -61,6 +61,11 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
         notifyDataSetChanged();
     }
 
+    public void clearParkings(){
+        this.mEntries.clear();
+        notifyDataSetChanged();
+    }
+
     /**
      * Swap The Parking List with parking lists
      *
@@ -80,12 +85,15 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
 
         holder.tv_location.setText(parking.getContent().getMproperties().getDevelopment());
         //need to do some calculation here
+
         if (mCurrentLocation != null) {
             Log.e("LATITUDE", String.valueOf(mCurrentLocation.getLatitude()));
             Log.e("LONGITUDE", String.valueOf(mCurrentLocation.getLongitude()));
-            holder.tv_distance.setText(getDistance(parking) + "km");
+            holder.tv_distance.setText(getDistance(parking) + " km");
 
 
+        }else{
+            holder.tv_distance.setText("Distance\nnot Available");
         }
         setAnimation(holder.list_item_layout, position);
 

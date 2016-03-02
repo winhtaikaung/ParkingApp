@@ -255,7 +255,7 @@ public class GPSTracker extends Service implements LocationListener {
         //Toast.makeText(mContext, "Your Location is - \nLat: " + location.getLatitude() + "\nLong: " + location.getLongitude(), Toast.LENGTH_LONG).show();
         Log.e("LOCATION","RECEIVED");
         // broadcastIntent();
-        //igps.OnUserMove(location);
+        igps.OnUserMove(location);
 
     }
 
