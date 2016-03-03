@@ -8,5 +8,6 @@
     <color name="fav_color">#3a75ce</color>
 R    <color name="fav_color_light">#619cf5</color>
     <color name="transparent_black">#b5000000</color>
+    <color name="fragment_background">#9abcba</color>
 
 </resources>

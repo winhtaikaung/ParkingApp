@@ -39,6 +39,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import API.RetrofitAPI;
+import common.ComUtil;
 import common.DbHelper;
 import common.GlobalValues;
 import common.GooglePlayHelper;
@@ -86,11 +87,12 @@ public class FavouriteFragment extends Fragment implements IGPSChangeListener, G
         }
         if (GooglePlayHelper.isPlayServiceAvailable(getActivity())) {
             buildGoogleApiClient();
-            checkPermissions();
-            db = new DbHelper(getActivity());
+
+
             bindView(view);
         }
-
+        checkPermissions();
+        db = new DbHelper(getActivity());
 
         return view;
     }
@@ -205,12 +207,8 @@ public class FavouriteFragment extends Fragment implements IGPSChangeListener, G
                     try {
                         String xml = s;
                         //String xml = loadStringFromFile(getActivity(), "demo.xml");
-                        xml = xml.replace("m:", "");
-                        xml = xml.replace("d:", "");
-                        xml = xml.replace("type=\"Edm.Int32\"", "");
-                        xml = xml.replace("type=\"Edm.DateTime\"", "");
-                        xml = xml.replace("type=\"Edm.Double\"", "");
-                        Feed fed = gsonXml.fromXml(xml, Feed.class);
+
+                        Feed fed = gsonXml.fromXml(ComUtil.purifyxml(xml), Feed.class);
 
 
                         parkingListAdapter = new ParkingListAdapter(db.getFavouriteEntry(fed.getEntry()), getActivity(), lastlocation, new ParkingListAdapter.ParkingListOnClickHandler() {
@@ -228,9 +226,9 @@ public class FavouriteFragment extends Fragment implements IGPSChangeListener, G
 
                                 startActivity(intent);
 
-                                getActivity().overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top);
+                                getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                             }
-                        });
+                        },true);
 
 
                         parkinglist.setAdapter(new SlideInRightAnimationAdapter(parkingListAdapter));

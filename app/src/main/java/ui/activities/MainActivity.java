@@ -12,7 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-
+import android.view.Menu;
+import android.view.MenuInflater;
 
 
 import com.parking.R;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity  {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     startActivity(new Intent(Settings.ACTION_APN_SETTINGS));
                     dialogInterface.dismiss();
+                    renderLayout();
 
                 }
             });
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity  {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                     dialogInterface.dismiss();
+                    renderLayout();
 
 
                 }
@@ -93,39 +96,7 @@ public class MainActivity extends AppCompatActivity  {
             });
             dialog.show();
         }else{
-            final  ViewPager pager = (ViewPager) findViewById(R.id.pager);
-            ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),titles);
-            pager.setAdapter(adapter);
-            tabLayout.setupWithViewPager(pager);
-            pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    if(position==1) {
-                        Intent intent = new Intent();
-                        intent.setAction("parking");
-                        LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
-                    }
-
-                    if(position==0){
-                        Intent intent = new Intent();
-                        intent.setAction("favourite");
-                        LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
-                    }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-
-
-            setupTabIcons();
+            renderLayout();
         }
 
 
@@ -138,6 +109,50 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_parking, menu);
+        return true;
+
+    }
+
+    void renderLayout(){
+        final  ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),titles);
+        pager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(pager);
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position==1) {
+                    Intent intent = new Intent();
+                    intent.setAction("parking");
+                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
+                }
+
+                if(position==0){
+                    Intent intent = new Intent();
+                    intent.setAction("favourite");
+                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+        setupTabIcons();
     }
     @Override
     protected void attachBaseContext(Context newBase) {

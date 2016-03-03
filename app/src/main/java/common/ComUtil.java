@@ -43,4 +43,13 @@ public class ComUtil {
         }
         return json;
     }
+
+    public static String purifyxml(String raw){
+        raw = raw.replace("m:", "");
+        raw = raw.replace("d:", "");
+        raw = raw.replace("type=\"Edm.Int32\"", "");
+        raw = raw.replace("type=\"Edm.DateTime\"", "");
+        raw = raw.replace("type=\"Edm.Double\"", "");
+        return raw;
+    }
 }

@@ -30,16 +30,18 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
     private ParkingListOnClickHandler mClickHandler;
     private Location mCurrentLocation;
     DbHelper db;
+    private boolean isfav;
 
     private int lastPosition = -1;
 
 
-    public ParkingListAdapter(List<Entry> entries, Context c, Location current, ParkingListOnClickHandler _handler) {
+    public ParkingListAdapter(List<Entry> entries, Context c, Location current, ParkingListOnClickHandler _handler,boolean is_fav) {
         this.mContext = c;
         this.mEntries = entries;
         this.mClickHandler = _handler;
         this.mCurrentLocation = current;
         this.db=new DbHelper(mContext);
+        this.isfav=is_fav;
 
 
     }
@@ -90,12 +92,14 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
         //need to do some calculation here
         //Log.e("CARPPARK_ID",parking.getContent().getMproperties().getCarParkID());
         //Show favicon
-        if(db.checkisfav(parking.getContent().getMproperties().getCarParkID().trim())){
-            Log.e("CARPPARK_ID",parking.getContent().getMproperties().getCarParkID()+"  TRUE  ");
-           holder.tv_fav.setVisibility(View.VISIBLE);
-        }else{
-            holder.tv_fav.setVisibility(View.INVISIBLE);
-            Log.e("CARPPARK_ID",parking.getContent().getMproperties().getCarParkID()+"  FALSE  ");
+        if(isfav) {
+            if (db.checkisfav(parking.getContent().getMproperties().getCarParkID().trim())) {
+                Log.e("CARPPARK_ID", parking.getContent().getMproperties().getCarParkID() + "  TRUE  ");
+                holder.tv_fav.setVisibility(View.VISIBLE);
+            } else {
+                holder.tv_fav.setVisibility(View.INVISIBLE);
+                Log.e("CARPPARK_ID", parking.getContent().getMproperties().getCarParkID() + "  FALSE  ");
+            }
         }
 
 

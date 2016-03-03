@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -103,9 +102,10 @@ public class ParkingFragment extends Fragment implements IGPSChangeListener, Goo
         }
         if (GooglePlayHelper.isPlayServiceAvailable(getActivity())) {
             buildGoogleApiClient();
-            checkPermissions();
+
             bindView(view);
         }
+        checkPermissions();
 
 
         return view;
@@ -249,9 +249,9 @@ public class ParkingFragment extends Fragment implements IGPSChangeListener, Goo
 
                                 startActivity(intent);
 
-                                getActivity().overridePendingTransition(R.anim.slide_in_top,R.anim.slide_out_top);
+                                getActivity().overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
                             }
-                        });
+                        },false);
 
 
                         parkinglist.setAdapter(new SlideInRightAnimationAdapter(parkingListAdapter));
