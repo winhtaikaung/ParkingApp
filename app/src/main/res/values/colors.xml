@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#dadada</color>
+    <color name="colorPrimary">#f9f9f9</color>
     <color name="colorPrimaryDark">#dadada</color>
     <color name="colorAccent">#2a4fe2</color>
 
     <color name="lot_no_color">#4cc96b</color>
     <color name="fav_color">#3a75ce</color>
-    <color name="fav_color_light">#619cf5</color>
+R    <color name="fav_color_light">#619cf5</color>
     <color name="transparent_black">#b5000000</color>
 
 </resources>

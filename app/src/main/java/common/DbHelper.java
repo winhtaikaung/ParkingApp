@@ -89,13 +89,11 @@ public class DbHelper {
         boolean fav=false;
 
         parkingid=parkingid.trim();
-        ArrayList<Integer> arr_parking=new ArrayList<>();
+        List<String> arr_parking=new ArrayList<>();
 
-        for(String i : Arrays.asList(getAllCarparks())){
-            arr_parking.add(Integer.parseInt(i));
-        }
+        arr_parking=Arrays.asList(getAllCarparks());
 
-        if(arr_parking.contains(Integer.parseInt(parkingid))){
+        if(arr_parking.contains(parkingid)){
             fav=true;
         }else {
             fav=false;
